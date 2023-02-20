@@ -4,8 +4,8 @@ const request = require("request");
 const { json } = require("body-parser");
 const app = express();
 const https = require('https');
-const MailChimpKey = "52752642508897bb20a29e087e4bb029-us21";
-const AudienceID = "0156853c26";
+const MailChimpKey = "";
+const AudienceID = "";
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended:true}));
 
@@ -18,7 +18,7 @@ app.post('/',function(req,res){
     var lastName = req.body.lname;
     var email = req.body.email;
 
-    console.log(firstName, lastName, email)
+    // console.log(firstName, lastName, email)
     // Mailchimp API receives Post in this format:
     var data = { 
         members: [
@@ -45,6 +45,12 @@ app.post('/',function(req,res){
             console.log(JSON.parse(data))
 
         })
+        if (response.statusCode === 200){
+            res.sendFile(__dirname + "/success.html")
+        }
+        else{
+            res.sendFile(__dirname + "/failure.html")
+        }
 
     });
     request.write(jsonData);
